@@ -2,15 +2,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
 interface ApiState {
-  data: Post | null;
+  data: any;
   loading: boolean;
   error: string | null;
 }
@@ -27,7 +20,7 @@ export const fetchPostById = createAsyncThunk(
     try {
       const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
       const response = await axios.get(url);
-      return response.data as Post;
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(error.message);
@@ -41,14 +34,7 @@ export const fetchPostById = createAsyncThunk(
 const apiSlice = createSlice({
   name: "api",
   initialState,
-  reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
-    clearData: (state) => {
-      state.data = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPostById.pending, (state) => {
@@ -66,5 +52,4 @@ const apiSlice = createSlice({
   },
 });
 
-export const { clearError, clearData } = apiSlice.actions;
 export default apiSlice.reducer;
