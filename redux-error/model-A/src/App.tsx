@@ -1,3 +1,4 @@
+// App.tsx
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { fetchPostById } from "./store/apiSlice";
@@ -5,10 +6,14 @@ import { fetchPostById } from "./store/apiSlice";
 const App: React.FC = () => {
   const [postId, setPostId] = useState("");
   const dispatch = useAppDispatch();
-  const { data, loading } = useAppSelector((state) => state.api);
+  const { data, loading, error } = useAppSelector((state) => state.api);
 
   const handleFetchData = () => {
-    dispatch(fetchPostById(postId)); // Dispatch API call with user input
+    if (!postId || isNaN(parseInt(postId))) {
+      alert("Please enter a valid post ID");
+      return;
+    }
+    dispatch(fetchPostById(postId));
   };
 
   return (
@@ -24,8 +29,9 @@ const App: React.FC = () => {
 
       {loading && <p>Loading...</p>}
 
-      {/* No explicit error handling */}
-      {data ? (
+      {error ? (
+        <p style={{ color: "red" }}>{error}</p>
+      ) : data ? (
         <pre>{JSON.stringify(data, null, 2)}</pre>
       ) : (
         <p>No data available.</p>
