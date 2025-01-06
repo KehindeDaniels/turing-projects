@@ -9,8 +9,8 @@ const App: React.FC = () => {
   const { data, loading, error } = useAppSelector((state) => state.api);
 
   const handleFetchData = () => {
-    if (!postId || isNaN(parseInt(postId))) {
-      alert("Please enter a valid post ID");
+    if (postId.trim() === "") {
+      alert("Please enter a post ID");
       return;
     }
     dispatch(fetchPostById(postId));
@@ -29,9 +29,9 @@ const App: React.FC = () => {
 
       {loading && <p>Loading...</p>}
 
-      {error ? (
-        <p style={{ color: "red" }}>{error}</p>
-      ) : data ? (
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {data ? (
         <pre>{JSON.stringify(data, null, 2)}</pre>
       ) : (
         <p>No data available.</p>
