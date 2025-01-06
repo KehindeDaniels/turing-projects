@@ -1,14 +1,25 @@
+// App.tsx
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
-import { fetchPostById } from "./store/apiSlice";
+import { fetchPostById, clearError, clearData } from "./store/apiSlice";
 
 const App: React.FC = () => {
   const [postId, setPostId] = useState("");
   const dispatch = useAppDispatch();
-  const { data, loading } = useAppSelector((state) => state.api);
+  const { data, loading, error } = useAppSelector((state) => state.api);
 
   const handleFetchData = () => {
-    dispatch(fetchPostById(postId)); // Dispatch API call with user input
+    if (!postId || isNaN(parseInt(postId))) {
+      dispatch(clearData());
+      return;
+    }
+    dispatch(fetchPostById(postId));
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPostId(e.target.value);
+    dispatch(clearError());
+    dispatch(clearData());
   };
 
   return (
@@ -18,14 +29,17 @@ const App: React.FC = () => {
         type="text"
         placeholder="Enter post ID"
         value={postId}
-        onChange={(e) => setPostId(e.target.value)}
+        onChange={handleInputChange}
       />
-      <button onClick={handleFetchData}>Fetch Post</button>
+      {error ? (
+        <p style={{ color: "red" }}>{error}</p>
+      ) : (
+        <button onClick={handleFetchData}>Fetch Post</button>
+      )}
 
-      {loading && <p>Loading...</p>}
-
-      {/* No explicit error handling */}
-      {data ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : data ? (
         <pre>{JSON.stringify(data, null, 2)}</pre>
       ) : (
         <p>No data available.</p>
