@@ -1,8 +1,9 @@
-// components/Header.js
+// Import the required modules
 import React from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 
+// Define the Header component
 const Header = () => {
   const { t } = useTranslation();
 
@@ -23,4 +24,5 @@ const Header = () => {
   );
 };
 
+// Export the Header component
 export default Header;

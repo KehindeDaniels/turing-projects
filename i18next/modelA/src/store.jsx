@@ -1,4 +1,3 @@
-// store.js
 import { createContext, useState } from "react";
 
 const StoreContext = createContext();

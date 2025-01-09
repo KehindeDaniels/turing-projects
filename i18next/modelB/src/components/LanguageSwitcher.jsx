@@ -1,7 +1,8 @@
-// components/LanguageSwitcher.js
+// Import the required modules
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+// Define the LanguageSwitcher component
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
 
@@ -19,4 +20,5 @@ const LanguageSwitcher = () => {
   );
 };
 
+// Export the LanguageSwitcher component
 export default LanguageSwitcher;
