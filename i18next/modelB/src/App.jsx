@@ -1,10 +1,11 @@
-// App.js
+// Import the required modules
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./components/Header";
 import Carousel from "./components/Carousel";
 import { StoreContext } from "./store";
 
+// Define the App component
 const App = () => {
   const { t } = useTranslation();
   const { selectedItems } = React.useContext(StoreContext);
@@ -24,4 +25,5 @@ const App = () => {
   );
 };
 
+// Export the App component
 export default App;

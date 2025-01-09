@@ -1,7 +1,8 @@
-// components/Cart.js
+// Import the required modules
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+// Define the Cart component
 const Cart = () => {
   const { t } = useTranslation();
 
@@ -13,4 +14,5 @@ const Cart = () => {
   );
 };
 
+// Export the Cart component
 export default Cart;

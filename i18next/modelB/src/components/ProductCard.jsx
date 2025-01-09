@@ -1,8 +1,8 @@
-// components/ProductCard.js
+// Import the required modules
 import React from "react";
 import { useTranslation } from "react-i18next";
-import AddToCartButton from "./AddToCartButton";
 
+// Define the ProductCard component
 const ProductCard = ({ product }) => {
   const { t } = useTranslation();
 
@@ -15,4 +15,5 @@ const ProductCard = ({ product }) => {
   );
 };
 
+// Export the ProductCard component
 export default ProductCard;

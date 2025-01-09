@@ -1,15 +1,17 @@
-// index.js
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import Router from "./routes";
 import { StoreProvider } from "./store";
+import ErrorBoundary from "./ErrorBoundary";
 import "./i18n";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
-    <StoreProvider>
-      <Router />
-    </StoreProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+    <ErrorBoundary>
+      <StoreProvider>
+        <Router />
+      </StoreProvider>
+    </ErrorBoundary>
+  </React.StrictMode>
 );
