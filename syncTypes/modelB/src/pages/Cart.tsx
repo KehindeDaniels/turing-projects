@@ -1,51 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import CartProductCard from "../components/CartProductCard";
 import { Product } from "../types";
 
-const Cart: React.FC = () => {
-  const [cart, setCart] = useState<{ [id: number]: Product }>({});
-  const [quantities, setQuantities] = useState<{ [id: number]: number }>({});
+interface Props {
+  cart: { [id: number]: Product };
+  removeFromCart: (product: Product) => void;
+  increaseQuantity: (product: Product) => void;
+  decreaseQuantity: (product: Product) => void;
+}
 
-  useEffect(() => {
-    const storedCart = localStorage.getItem("cart");
-    if (storedCart) {
-      setCart(JSON.parse(storedCart));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
-  const removeFromCart = (product: Product) => {
-    setCart((prevCart) => {
-      const newCart = { ...prevCart };
-      delete newCart[product.id];
-      return newCart;
-    });
-  };
-
-  const increaseQuantity = (product: Product) => {
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [product.id]: (prevQuantities[product.id] || 0) + 1,
-    }));
-  };
-
-  const decreaseQuantity = (product: Product) => {
-    setQuantities((prevQuantities) => {
-      const newQuantities = { ...prevQuantities };
-      if (newQuantities[product.id] > 1) {
-        newQuantities[product.id]--;
-      } else {
-        delete newQuantities[product.id];
-        removeFromCart(product);
-      }
-      return newQuantities;
-    });
-  };
-
+const Cart: React.FC<Props> = ({
+  cart,
+  removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+}) => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Cart</h1>
@@ -57,7 +27,7 @@ const Cart: React.FC = () => {
             <CartProductCard
               key={id}
               product={cart[Number(id)]}
-              quantity={quantities[Number(id)] || 1}
+              quantity={cart[Number(id)].quantity || 1}
               removeFromCart={removeFromCart}
               increaseQuantity={increaseQuantity}
               decreaseQuantity={decreaseQuantity}

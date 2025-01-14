@@ -3,11 +3,20 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Product } from "../types";
 
-const ProductDetail: React.FC = () => {
+interface Props {
+  cart: { [id: number]: Product };
+  addToCart: (product: Product) => void;
+  increaseQuantity: (product: Product) => void;
+}
+
+const ProductDetail: React.FC<Props> = ({
+  cart,
+  addToCart,
+  increaseQuantity,
+}) => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(false);
-  const [cart, setCart] = useState<{ [id: number]: Product }>({});
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -25,22 +34,6 @@ const ProductDetail: React.FC = () => {
     };
     fetchProduct();
   }, [id]);
-
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => ({ ...prevCart, [product.id]: product }));
-  };
-
-  const increaseQuantity = (product: Product) => {
-    setCart((prevCart) => {
-      const newCart = { ...prevCart };
-      if (newCart[product.id]) {
-        newCart[product.id].quantity = (newCart[product.id].quantity || 0) + 1;
-      } else {
-        newCart[product.id] = { ...product, quantity: 1 };
-      }
-      return newCart;
-    });
-  };
 
   return (
     <div style={{ padding: "20px" }}>
