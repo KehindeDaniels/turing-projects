@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { Product } from "../types";
 
-const Home: React.FC = () => {
+interface Props {
+  cart: { [id: number]: Product };
+  addToCart: (product: Product) => void;
+}
+
+const Home: React.FC<Props> = ({ cart, addToCart }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [cart, setCart] = useState<{ [id: number]: Product }>({});
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,10 +27,6 @@ const Home: React.FC = () => {
     };
     fetchProducts();
   }, []);
-
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => ({ ...prevCart, [product.id]: product }));
-  };
 
   return (
     <div style={{ padding: "20px" }}>
