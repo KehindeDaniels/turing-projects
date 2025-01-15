@@ -10,37 +10,40 @@ const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("currentUser");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
   const signUp = (username, password) => {
-    if (users.find((u) => u.username === username)) {
+    const existingUser = users.find((user) => user.username === username);
+    if (existingUser) {
       return { success: false, message: "Username already taken" };
     }
+
     const newUser = { username, password };
-    setUsers([...users, newUser]);
+    setUsers((prevUsers) => [...prevUsers, newUser]);
     localStorage.setItem("users", JSON.stringify([...users, newUser]));
-    return { success: true, message: "Sign up successful" };
+    return { success: true, message: "User created successfully" };
   };
 
   const login = (username, password) => {
     const existingUser = users.find(
-      (u) => u.username === username && u.password === password
+      (user) => user.username === username && user.password === password
     );
     if (!existingUser) {
       return { success: false, message: "Invalid username or password" };
     }
+
     setUser(existingUser);
-    localStorage.setItem("user", JSON.stringify(existingUser));
-    return { success: true, message: "Login successful" };
+    localStorage.setItem("currentUser", JSON.stringify(existingUser));
+    return { success: true, message: "Logged in successfully" };
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem("currentUser");
   };
 
   return (
@@ -50,4 +53,4 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export { AuthContext, AuthProvider };
+export { AuthProvider, AuthContext };

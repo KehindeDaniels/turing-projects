@@ -1,21 +1,22 @@
-// Login.js
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const result = login(username, password);
     if (result.success) {
-      navigate("/dashboard");
+      const from = location.state?.from;
+      navigate(from || "/dashboard", { replace: true });
     } else {
       setError(result.message);
     }
@@ -26,31 +27,43 @@ function Login() {
       <h1 className="text-3xl font-bold underline">Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="mt-4">
-          <label>Username:</label>
+          <label className="block font-bold" htmlFor="username">
+            Username
+          </label>
           <input
+            className="block w-full p-2 border rounded"
             type="text"
+            id="username"
             value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            className="block w-full p-2 mt-2 border rounded"
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="mt-4">
-          <label>Password:</label>
+          <label className="block font-bold" htmlFor="password">
+            Password
+          </label>
           <input
+            className="block w-full p-2 border rounded"
             type="password"
+            id="password"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className="block w-full p-2 mt-2 border rounded"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {error && <div className="mt-4 text-red-500">{error}</div>}
         <button
-          type="submit"
           className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="submit"
         >
           Login
         </button>
+        {error && <p className="mt-4 text-red-500">{error}</p>}
       </form>
+      <p className="mt-4">
+        Don't have an account?{" "}
+        <Link to="/signup" className="text-blue-500">
+          Sign Up
+        </Link>
+      </p>
     </div>
   );
 }
