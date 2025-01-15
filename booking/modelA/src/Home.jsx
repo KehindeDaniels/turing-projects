@@ -9,8 +9,7 @@ function Home() {
       </h1>
       <p className="mt-4 text-lg">
         Discover your perfect home with our comprehensive listings and expert
-        guidance. Whether you're buying, selling, or renting, we're here to
-        help.
+        guidance. Whether youre buying, selling, or renting, were here to help.
       </p>
       <div className="mt-8">
         <h2 className="text-2xl font-semibold">Featured Properties</h2>

@@ -1,10 +1,14 @@
-// Dashboard.js
-import React from "react";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
 function Dashboard() {
+  const { user } = useContext(AuthContext);
+
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold underline">Your Dashboard</h1>
+      <h1 className="text-3xl font-bold underline">
+        Welcome, {user.username}!
+      </h1>
       <p className="mt-4 text-lg">
         Here's an overview of your saved listings and recent activity.
       </p>
