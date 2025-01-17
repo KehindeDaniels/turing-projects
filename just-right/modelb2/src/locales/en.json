@@ -1,0 +1,23 @@
+{
+  "header": {
+    "title": "JustRight",
+    "navigationBar": {
+      "home": "Home",
+      "products": "Products"
+    }
+  },
+  "products": {
+    "title": "Our Products",
+    "description": "Check out our latest products"
+  },
+  "product": {
+    "name": "Name",
+    "description": "Description",
+    "price": "Price",
+    "category": "Category"
+  },
+  "languageSwitcher": {
+    "english": "English",
+    "arabic": "العربية"
+  }
+}

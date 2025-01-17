@@ -1,11 +1,12 @@
 // LanguageSwitcher.jsx
+import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 
 const LanguageSwitcher = () => {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
 
   const changeLanguage = (lng) => {
-    i18n.language = lng;
+    i18next.changeLanguage(lng);
     document.dir = lng === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = lng;
   };
