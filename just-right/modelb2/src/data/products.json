@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Product 1",
+    "description": "This is a description of product 1. It has multiple features and benefits.",
+    "price": 10.99,
+    "category": "Electronics"
+  },
+  {
+    "name": "Product 2",
+    "description": "This is a description of product 2. It has multiple features and benefits.",
+    "price": 9.99,
+    "category": "Fashion"
+  },
+  {
+    "name": "Product 3",
+    "description": "This is a description of product 3. It has multiple features and benefits.",
+    "price": 12.99,
+    "category": "Home Goods"
+  }
+]
