@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "تجارة إلكترونية فقط",
+    "description": "متجرك الشامل لجميع احتياجاتك"
+  },
+  "products": {
+    "title": "المنتجات",
+    "description": "تصفح مجموعة منتجاتنا"
+  },
+  "product": {
+    "name": "الاسم",
+    "description": "الوصف",
+    "price": "السعر",
+    "category": "الفئة"
+  },
+  "languageSwitcher": {
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  }
+}
