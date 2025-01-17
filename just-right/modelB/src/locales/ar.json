@@ -1,0 +1,23 @@
+{
+  "header": {
+    "title": "جاست رايت",
+    "navigationBar": {
+      "home": "الصفحة الرئيسية",
+      "products": "المنتجات"
+    }
+  },
+  "products": {
+    "title": "منتجاتنا",
+    "description": "تفقد أحدث منتجاتنا"
+  },
+  "product": {
+    "name": "الاسم",
+    "description": "الوصف",
+    "price": "السعر",
+    "category": "الفئة"
+  },
+  "languageSwitcher": {
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  }
+}

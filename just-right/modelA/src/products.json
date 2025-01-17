@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Product 1",
+    "description": "This is a description of product 1. It is a very good product.",
+    "price": "$10.99",
+    "category": "Electronics"
+  },
+  {
+    "name": "Product 2",
+    "description": "This is a description of product 2. It is a very good product.",
+    "price": "$9.99",
+    "category": "Clothing"
+  },
+  {
+    "name": "Product 3",
+    "description": "This is a description of product 3. It is a very good product.",
+    "price": "$12.99",
+    "category": "Home Goods"
+  }
+]

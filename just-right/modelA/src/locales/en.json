@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "Just Right E-commerce",
+    "description": "Your one-stop shop for all your needs"
+  },
+  "products": {
+    "title": "Products",
+    "description": "Browse our selection of products"
+  },
+  "product": {
+    "name": "Name",
+    "description": "Description",
+    "price": "Price",
+    "category": "Category"
+  },
+  "languageSwitcher": {
+    "english": "English",
+    "arabic": "Arabic"
+  }
+}

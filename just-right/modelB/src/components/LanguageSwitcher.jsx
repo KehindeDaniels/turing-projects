@@ -1,22 +1,22 @@
-// src/LanguageSwitcher.js
-import React from "react";
+// src/components/LanguageSwitcher.js
 import { useTranslation } from "react-i18next";
 
 const LanguageSwitcher = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    document.documentElement.dir = lng === "ar" ? "rtl" : "ltr";
+    document.dir = lng === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = lng;
   };
 
   return (
-    <div>
+    <div className="language-switcher">
       <button onClick={() => changeLanguage("en")}>
-        {i18n.t("languageSwitcher.english")}
+        {t("languageSwitcher.english")}
       </button>
       <button onClick={() => changeLanguage("ar")}>
-        {i18n.t("languageSwitcher.arabic")}
+        {t("languageSwitcher.arabic")}
       </button>
     </div>
   );
