@@ -1,8 +1,9 @@
 // src/App.js
 import React, { useState, useEffect } from "react";
-import SearchInput from "./components/SearchInput.jsx";
-import MovieList from "./components/MovieList.jsx";
-import MovieDetailsModal from "./components/MovieDetailsModal.jsx";
+import SearchInput from "./components/SearchInput";
+import MovieList from "./components/MovieList";
+import MovieDetailsModal from "./components/MovieDetailsModal";
+
 const API_KEY = "5dddfd597d087157b4d116f96d618309";
 const API_URL = "https://api.themoviedb.org/3";
 
