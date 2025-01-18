@@ -1,0 +1,37 @@
+The task for a Job application is to create a movie search application using React Hook. Provide a complete execution of the movie app. The movie app will have the following features
+
+Features of the app
+
+Real-Time Search:
+
+- The application should have a search input box where users can type a movie name.
+- As the user types, search results should appear below the input box.
+  -Use a debounce mechanism to delay the API call until the user stops typing for a some reasonable milliseconds
+- Movie results styled as a clean list with thumbnails.
+
+API Integration:
+
+- Use an external public movie API, such as The Movie Database API (TMDb) or a similar alternative.
+- Fetch movie data, including at least the movie title and a small thumbnail image.
+
+State Management:
+
+Use `useState` and `useEffct to manage: - The user's input query. - The fetched movie results. - Any error or loading states. - side effects
+
+Error Handling and Edge cases:
+
+    - handle API errors, empty results, No movies match the query and show a user-friendly error error specific message
+
+Responsiveness:
+
+- Design the interface to be responsive on both mobile and desktop devices.
+- Ensure the search box and results are appropriately styled for usability on different screen sizes.
+
+Implementation Requirements
+
+- React with vite
+- Tailwind CSS for styling
+
+Deliverables
+
+- A complete end-to-end implementation
