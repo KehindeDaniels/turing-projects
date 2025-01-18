@@ -1,10 +1,11 @@
 // src/App.js
-import SearchBar from "./SearchBar";
+import React from "react";
+import MovieSearch from "./MovieSearch";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <SearchBar />
+    <div className="App">
+      <MovieSearch />
     </div>
   );
 }
