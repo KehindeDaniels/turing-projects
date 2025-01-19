@@ -1,8 +1,8 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
-import SearchInput from "./components/SearchInput.jsx";
-import MovieList from "./components/MovieList.jsx";
-import MovieDetailsModal from "./components/MovieDetailsModal.jsx";
+import SearchInput from "./components/SearchInput";
+import MovieList from "./components/MovieList";
+import MovieDetailsModal from "./components/MovieDetailsModal";
+
 const API_KEY = "5dddfd597d087157b4d116f96d618309";
 const API_URL = "https://api.themoviedb.org/3";
 
@@ -20,14 +20,28 @@ const App = () => {
 
   const fetchMovies = async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch(
         `${API_URL}/search/movie?api_key=${API_KEY}&query=${query}`
       );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
-      setMovies(data.results);
+      if (data.results.length === 0) {
+        setError("No movies found. Please try a different search query.");
+      } else {
+        setMovies(data.results);
+      }
     } catch (error) {
-      setError(error.message);
+      if (error.message.includes("Failed to fetch")) {
+        setError("Network error. Please check your internet connection.");
+      } else if (error.message.includes("HTTP error")) {
+        setError(`Server error. Status code: ${error.message.split(": ")[1]}`);
+      } else {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -35,14 +49,24 @@ const App = () => {
 
   const fetchPopularMovies = async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch(
         `${API_URL}/movie/popular?api_key=${API_KEY}`
       );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
       setMovies(data.results);
     } catch (error) {
-      setError(error.message);
+      if (error.message.includes("Failed to fetch")) {
+        setError("Network error. Please check your internet connection.");
+      } else if (error.message.includes("HTTP error")) {
+        setError(`Server error. Status code: ${error.message.split(": ")[1]}`);
+      } else {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -71,9 +95,13 @@ const App = () => {
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
-        <p>Error: {error}</p>
-      ) : movies.length === 0 ? (
-        <p>No movies found</p>
+        <p className="text-red-500">{error}</p>
+      ) : movies.length === 0 && !query ? (
+        <p>Loading popular movies...</p>
+      ) : movies.length === 0 && query ? (
+        <p>
+          No movies found for "{query}". Please try a different search query.
+        </p>
       ) : (
         <MovieList movies={movies} onClick={handleMovieClick} />
       )}
