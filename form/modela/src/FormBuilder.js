@@ -1,65 +1,97 @@
-// FormBuilder.js
+// formBuilder.js
 class FormBuilder {
   constructor() {
-    this.fields = [];
+    this.formFields = [];
   }
 
-  addTextField(name, label, placeholder = "", value = "") {
-    this.fields.push({
+  addTextField(label, name, placeholder, validationPattern, errorMessage) {
+    this.formFields.push({
       type: "text",
-      name,
       label,
+      name,
       placeholder,
-      value,
+      validationPattern,
+      errorMessage,
     });
     return this;
   }
 
-  addEmailField(name, label, placeholder = "", value = "") {
-    this.fields.push({
+  addEmailField(label, name, placeholder, validationPattern, errorMessage) {
+    this.formFields.push({
       type: "email",
-      name,
       label,
+      name,
       placeholder,
-      value,
+      validationPattern,
+      errorMessage,
     });
     return this;
   }
 
-  addPasswordField(name, label, placeholder = "", value = "") {
-    this.fields.push({
+  addPasswordField(label, name, placeholder, validationPattern, errorMessage) {
+    this.formFields.push({
       type: "password",
-      name,
       label,
+      name,
       placeholder,
-      value,
+      validationPattern,
+      errorMessage,
     });
     return this;
   }
 
-  addSelectField(name, label, options = [], value = "") {
-    this.fields.push({
-      type: "select",
-      name,
-      label,
-      options,
-      value,
-    });
-    return this;
-  }
-
-  addCheckboxField(name, label, value = false) {
-    this.fields.push({
+  addCheckboxField(label, name, options) {
+    this.formFields.push({
       type: "checkbox",
-      name,
       label,
-      value,
+      name,
+      options,
     });
     return this;
   }
 
-  build() {
-    return this.fields;
+  addRadioButtonField(label, name, options) {
+    this.formFields.push({
+      type: "radio",
+      label,
+      name,
+      options,
+    });
+    return this;
+  }
+
+  addSelectField(label, name, options) {
+    this.formFields.push({
+      type: "select",
+      label,
+      name,
+      options,
+    });
+    return this;
+  }
+
+  addDateField(label, name, placeholder) {
+    this.formFields.push({
+      type: "date",
+      label,
+      name,
+      placeholder,
+    });
+    return this;
+  }
+
+  addFileField(label, name, placeholder) {
+    this.formFields.push({
+      type: "file",
+      label,
+      name,
+      placeholder,
+    });
+    return this;
+  }
+
+  getFormFields() {
+    return this.formFields;
   }
 }
 

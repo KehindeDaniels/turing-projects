@@ -2,7 +2,17 @@
 import React, { useState } from "react";
 
 const Form = ({ fields, onSubmit }) => {
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState(() => {
+    const initialValues = {};
+    fields.forEach((field) => {
+      if (field.type === "checkbox") {
+        initialValues[field.name] = [];
+      } else {
+        initialValues[field.name] = "";
+      }
+    });
+    return initialValues;
+  });
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -16,24 +26,114 @@ const Form = ({ fields, onSubmit }) => {
     if (field.validation) {
       const regex = new RegExp(field.validation);
       if (!regex.test(value)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: field.label + " is invalid",
-        }));
+        let errorMessage = "";
+        switch (field.name) {
+          case "username":
+            errorMessage = "Username should only contain letters and numbers.";
+            break;
+          case "email":
+            errorMessage = "Please enter a valid email address.";
+            break;
+          case "password":
+            errorMessage =
+              "Password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.";
+            break;
+          default:
+            errorMessage = `${field.label} is invalid.`;
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
       } else {
         setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
       }
+    } else if (field.type !== "checkbox" && !value) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: `${field.label} is required.`,
+      }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formValues);
+    let hasErrors = false;
+    fields.forEach((field) => {
+      const value = formValues[field.name];
+      if (field.type !== "checkbox" && !value) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [field.name]: `${field.label} is required.`,
+        }));
+        hasErrors = true;
+      } else if (field.validation) {
+        const regex = new RegExp(field.validation);
+        if (!regex.test(value)) {
+          let errorMessage = "";
+          switch (field.name) {
+            case "username":
+              errorMessage =
+                "Username should only contain letters and numbers.";
+              break;
+            case "email":
+              errorMessage = "Please enter a valid email address.";
+              break;
+            case "password":
+              errorMessage =
+                "Password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.";
+              break;
+            default:
+              errorMessage = `${field.label} is invalid.`;
+          }
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [field.name]: errorMessage,
+          }));
+          hasErrors = true;
+        }
+      }
+    });
+    if (!hasErrors) {
+      onSubmit(formValues);
+      setFormValues(() => {
+        const initialValues = {};
+        fields.forEach((field) => {
+          if (field.type === "checkbox") {
+            initialValues[field.name] = [];
+          } else {
+            initialValues[field.name] = "";
+          }
+        });
+        return initialValues;
+      });
+    }
   };
 
   const handleReset = () => {
-    setFormValues({});
+    setFormValues(() => {
+      const initialValues = {};
+      fields.forEach((field) => {
+        if (field.type === "checkbox") {
+          initialValues[field.name] = [];
+        } else {
+          initialValues[field.name] = "";
+        }
+      });
+      return initialValues;
+    });
     setErrors({});
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, value } = e.target;
+    const values = formValues[name] || [];
+    if (e.target.checked) {
+      values.push(value);
+    } else {
+      values.splice(values.indexOf(value), 1);
+    }
+    setFormValues((prevValues) => ({ ...prevValues, [name]: values }));
+    validateField(name, values);
   };
 
   return (
@@ -64,22 +164,10 @@ const Form = ({ fields, onSubmit }) => {
                     id={option.value}
                     name={field.name}
                     value={option.value}
-                    checked={
-                      formValues[field.name] &&
-                      formValues[field.name].includes(option.value)
-                    }
-                    onChange={(e) => {
-                      const values = formValues[field.name] || [];
-                      if (e.target.checked) {
-                        values.push(option.value);
-                      } else {
-                        values.splice(values.indexOf(option.value), 1);
-                      }
-                      setFormValues((prevValues) => ({
-                        ...prevValues,
-                        [field.name]: values,
-                      }));
-                    }}
+                    checked={(formValues[field.name] || []).includes(
+                      option.value
+                    )}
+                    onChange={handleCheckboxChange}
                   />
                   <label htmlFor={option.value} className="ml-2">
                     {option.label}
@@ -102,6 +190,7 @@ const Form = ({ fields, onSubmit }) => {
                         ...prevValues,
                         [field.name]: e.target.value,
                       }));
+                      validateField(field.name, e.target.value);
                     }}
                   />
                   <label htmlFor={option.value} className="ml-2">
@@ -115,7 +204,13 @@ const Form = ({ fields, onSubmit }) => {
               id={field.name}
               name={field.name}
               value={formValues[field.name] || ""}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormValues((prevValues) => ({
+                  ...prevValues,
+                  [field.name]: e.target.value,
+                }));
+                validateField(field.name, e.target.value);
+              }}
               className="border border-gray-300 rounded w-full p-2"
             >
               <option value="">Select {field.label}</option>
@@ -131,7 +226,13 @@ const Form = ({ fields, onSubmit }) => {
               id={field.name}
               name={field.name}
               value={formValues[field.name] || ""}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormValues((prevValues) => ({
+                  ...prevValues,
+                  [field.name]: e.target.value,
+                }));
+                validateField(field.name, e.target.value);
+              }}
               className="border border-gray-300 rounded w-full p-2"
             />
           ) : field.type === "file" ? (
