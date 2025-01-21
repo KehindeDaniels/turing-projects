@@ -1,95 +1,47 @@
+// src/App.js
+
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AdminDashboard from "./components/AdminDashboard";
-import ManagerDashboard from "./components/ManagerDashboard";
-import EmployeeDashboard from "./components/EmployeeDashboard";
-import Login from "./components/Login";
-import Navbar from "./components/Navbar";
-
-const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-};
-
-const AdminRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
-
-  if (!token || role !== "admin") {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-};
-
-const ManagerRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
-
-  if (!token || (role !== "admin" && role !== "manager")) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-};
-
-const EmployeeRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
-
-  if (
-    !token ||
-    (role !== "admin" && role !== "manager" && role !== "employee")
-  ) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-};
+import PrivateRoute from "./Router";
+import Navbar from "./Navbar";
+import AdminDashboard from "./AdminDashboard";
+import ManagerDashboard from "./ManagerDashboard";
+import EmployeeDashboard from "./EmployeeDashboard";
+import Login from "./Login";
+import Unauthorized from "./Unauthorized";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route
           path="/admin"
           element={
-            <AdminRoute>
+            <PrivateRoute>
               <AdminDashboard />
-            </AdminRoute>
+            </PrivateRoute>
           }
         />
         <Route
           path="/manager"
           element={
-            <ManagerRoute>
+            <PrivateRoute>
               <ManagerDashboard />
-            </ManagerRoute>
+            </PrivateRoute>
           }
         />
         <Route
           path="/employee"
           element={
-            <EmployeeRoute>
-              <EmployeeDashboard />
-            </EmployeeRoute>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="*"
-          element={
             <PrivateRoute>
-              <Navigate to="/login" replace />
+              <EmployeeDashboard />
             </PrivateRoute>
           }
         />
+        <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </BrowserRouter>
   );
