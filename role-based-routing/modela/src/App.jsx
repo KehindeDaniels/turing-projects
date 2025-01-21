@@ -1,35 +1,98 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import AdminDashboard from "./components/AdminDashboard";
+import ManagerDashboard from "./components/ManagerDashboard";
+import EmployeeDashboard from "./components/EmployeeDashboard";
+import Login from "./components/Login";
+import Navbar from "./components/Navbar";
 
-function App() {
-  const [count, setCount] = useState(0)
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
 
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+const AdminRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  if (!token || role !== "admin") {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+const ManagerRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  if (!token || (role !== "admin" && role !== "manager")) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+const EmployeeRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  if (
+    !token ||
+    (role !== "admin" && role !== "manager" && role !== "employee")
+  ) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/manager"
+          element={
+            <ManagerRoute>
+              <ManagerDashboard />
+            </ManagerRoute>
+          }
+        />
+        <Route
+          path="/employee"
+          element={
+            <EmployeeRoute>
+              <EmployeeDashboard />
+            </EmployeeRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="*"
+          element={
+            <PrivateRoute>
+              <Navigate to="/login" replace />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
