@@ -1,7 +1,7 @@
 // src/ProtectedRoute.js
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import Auth from "./auth";
+import Auth from "./Auth";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
