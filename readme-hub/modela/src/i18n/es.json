@@ -1,0 +1,13 @@
+{
+  "welcome": "Bienvenido a ReadMe.hub",
+  "overview": "Aprende nuevas habilidades y expande tu conocimiento",
+  "courses": "Cursos",
+  "course1": {
+    "title": "Curso 1",
+    "description": "Este es el curso 1"
+  },
+  "course2": {
+    "title": "Curso 2",
+    "description": "Este es el curso 2"
+  }
+}
