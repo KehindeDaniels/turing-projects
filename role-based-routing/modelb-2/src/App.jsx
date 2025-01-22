@@ -1,6 +1,6 @@
 // src/App.jsx
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./Router";
 import Navbar from "./Navbar";
