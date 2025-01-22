@@ -53,6 +53,7 @@ const login = (username, password) => {
     throw new Error("Invalid username or password");
   }
 };
+
 const logout = () => {
   localStorage.removeItem(USER_KEY);
 };
