@@ -19,6 +19,7 @@ const Cart = () => {
   const handleRemoveFromCart = (id) => {
     updateCart(id, 0);
     setCartItems(getCart());
+    console.log(id);
   };
 
   return (

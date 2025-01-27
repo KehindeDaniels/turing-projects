@@ -1,3 +1,5 @@
+import { getProducts } from "../data/products";
+// Just testing other issues by importing the correct file
 const cart = [];
 
 const getCart = () => cart;

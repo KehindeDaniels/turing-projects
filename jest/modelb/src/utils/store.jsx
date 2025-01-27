@@ -55,6 +55,8 @@ const StoreProvider = ({ children }) => {
         deleteProduct,
         addToCart,
         removeFromCart,
+        // To test other issues
+        // setProducts,
         updateQuantity,
       }}
     >
