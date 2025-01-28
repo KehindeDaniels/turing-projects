@@ -6,13 +6,11 @@ import Product from "../components/Product";
 import api from "../utils/api";
 
 const Products = () => {
-  const { products, addProduct } = useContext(StoreContext);
+  const { products, setProducts } = useContext(StoreContext);
 
   useEffect(() => {
     api.getProducts().then((data) => {
-      data.forEach((product) => {
-        addProduct(product);
-      });
+      setProducts(data);
     });
   }, []);
 

@@ -8,7 +8,7 @@ import Products from "./pages/Products";
 import CartPage from "./pages/CartPage";
 import ProductDetails from "./pages/ProductDetails";
 import { StoreProvider } from "./utils/store";
-
+import "./styles.css";
 const App = () => {
   return (
     <StoreProvider>

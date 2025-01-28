@@ -22,6 +22,7 @@ const Cart = () => {
             </button>
             <button
               onClick={() => updateQuantity(product.id, product.quantity - 1)}
+              disabled={product.quantity === 0}
             >
               -
             </button>

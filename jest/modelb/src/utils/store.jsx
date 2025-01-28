@@ -1,12 +1,19 @@
 // src/utils/store.js
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const StoreContext = createContext();
 
 const StoreProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const addProduct = (product) => {
     setProducts([...products, product]);
@@ -40,10 +47,12 @@ const StoreProvider = ({ children }) => {
   };
 
   const updateQuantity = (id, quantity) => {
+    if (quantity < 0) {
+      quantity = 0;
+    }
     const updatedCart = cart.map((p) => (p.id === id ? { ...p, quantity } : p));
     setCart(updatedCart);
   };
-
   return (
     <StoreContext.Provider
       value={{
@@ -55,9 +64,8 @@ const StoreProvider = ({ children }) => {
         deleteProduct,
         addToCart,
         removeFromCart,
-        // To test other issues
-        // setProducts,
         updateQuantity,
+        setProducts, // Expose setProducts as a function
       }}
     >
       {children}
